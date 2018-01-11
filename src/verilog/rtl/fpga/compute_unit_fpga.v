@@ -395,7 +395,7 @@ end
 always @(*) begin
   lsu2sgpr_dest_wr_en_reg <= 1'b0;
   lsu2vgpr_dest_wr_en_reg <= 1'b0;
-  instrBuffWrEn <= 1'b1;
+  instrBuffWrEn <= 1'b0;
   mb2fpgamem_data_we <= 1'b0;
   if(slv_reg_wren && ~slv_reg_wren_buffer && axi_awaddr[ADDR_LSB+OPT_MEM_ADDR_BITS:ADDR_LSB] == 9'h0C0) begin
     case(S_AXI_WDATA)
