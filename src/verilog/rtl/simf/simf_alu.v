@@ -156,14 +156,34 @@ module simf_alu
 						end
          {1'b1, `ALU_VOP1_FORMAT, 12'h02A} : //V_RCP_F32  - VIN
             begin
-               alu_done <= fpu_ready_o;
+               alu_done <=fpu_ready_o;// 1'b1;
                fpu_start_i <= alu_start;
                fpu_op_i <= 3'b011;
                fpu_opa_i <= 32'h3f80_0000;
                fpu_opb_i <= final_source1_data;
                alu_vgpr_dest_data <= fpu_output_o;
                alu_dest_vcc_value <= alu_source_vcc_value;
-						end
+			end
+         {1'b1, `ALU_VOP1_FORMAT, 12'h006} : //V_CVT_F32_U32 
+            begin
+                alu_done <=fpu_ready_o;// 1'b1;
+                fpu_start_i <= alu_start;
+                fpu_op_i <= 3'b100;
+                fpu_opa_i <= final_source1_data;
+                fpu_opb_i <= 32'h3f80_0000;
+                alu_vgpr_dest_data <= fpu_output_o[31] ? 32'h7f800000 : fpu_output_o;
+                alu_dest_vcc_value <= alu_source_vcc_value;
+            end
+          {1'b1, `ALU_VOP1_FORMAT, 12'h007} : //V_CVT_F32_U32 
+            begin
+                alu_done <=fpu_ready_o;// 1'b1;
+                fpu_start_i <= alu_start;
+                fpu_op_i <= 3'b101;
+                fpu_opa_i <= final_source1_data[31] ? {1'b0,final_source1_data[30:0]} : final_source1_data;
+                fpu_opb_i <= 32'h3f80_0000;
+                alu_vgpr_dest_data <= fpu_output_o;
+                alu_dest_vcc_value <= alu_source_vcc_value;
+            end
          {1'b1, `ALU_VOP2_FORMAT, 12'h008} : //V_MUL_F32
             begin
                alu_done <= fpu_ready_o;

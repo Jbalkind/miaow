@@ -412,7 +412,7 @@ module fpu_arith
    always @(posedge clk or posedge rst)
      if (rst)
        begin
-	  s_output1 <= 'd0;
+	  s_output_o <= 'd0;
 	  s_ine_o <= 1'b0;
        end
      else
@@ -420,19 +420,19 @@ module fpu_arith
 	  case(fpu_op_i)
 	    3'd0,
 	      3'd1: begin
-		 s_output1 <= postnorm_addsub_output_o;
+		 s_output_o <= postnorm_addsub_output_o;
 		 s_ine_o <= postnorm_addsub_ine_o;
 	      end
 	    3'd2: begin
-	       s_output1 <= post_norm_mul_output;
+	       s_output_o <= post_norm_mul_output;
 	       s_ine_o <= post_norm_mul_ine;
 	    end
 	    3'd3: begin
-	       s_output1 <= post_norm_div_output;
+	       s_output_o <= post_norm_div_output;
 	       s_ine_o <= post_norm_div_ine;
 	    end
 	    3'd4, 3'd5 : begin
-	       s_output1 <= intfloat_conv_output_s;
+	       s_output_o <= intfloat_conv_output_s;
 	       s_ine_o <= intfloat_conv_ine_s;
 	    end
 	    //	  3'd4: begin
@@ -440,7 +440,7 @@ module fpu_arith
 	    //		s_ine_o 	<= post_norm_sqrt_ine_o;
 	    //	end
 	    default: begin
-	       s_output1 <= 0;
+	       s_output_o <= 0;
 	       s_ine_o <= 0;
 	    end
 	  endcase // case (fpu_op_i)
@@ -450,7 +450,7 @@ module fpu_arith
    assign s_infa = &s_opa_i[30:23];
    assign s_infb = &s_opb_i[30:23];
 
-   always @*
+   /*always @*
      begin
 	if (s_rmode_i==2'd0 | s_div_zero_o | s_infa | s_infb | s_qnan_o |
 	    s_qnan_o) // Round to nearest even
@@ -475,7 +475,7 @@ module fpu_arith
 	end
 	else
 	  s_output_o = s_output1;
-     end // always @ *
+     end // always @ */
 
    // Exception generation
    assign s_underflow_o = (s_output1[30:23]==8'h00) & s_ine_o;
@@ -487,5 +487,3 @@ module fpu_arith
    assign s_snan_o = s_output1[30:0]==SNAN;
 
 endmodule // fpu_arith
-
-

@@ -295,6 +295,19 @@ always @ (in_opcode) begin
       		out_vgpr_wr_en <= 1'b1;
             temp_sgpr_wr_en <= 1'b0;
 				 end
+	  {`ALU_VOP1_FORMAT, 12'h???, 12'h006} : //V_CVT_F32_U32
+         begin
+            temp_vcc_wr_en <= 1'b0;
+            out_vgpr_wr_en <= 1'b1;
+            temp_sgpr_wr_en <= 1'b0;
+         end
+      {`ALU_VOP1_FORMAT, 12'h???, 12'h007} : //V_CVT_F32_U32 
+        begin
+            temp_vcc_wr_en <= 1'b0;
+            out_vgpr_wr_en <= 1'b1;
+            temp_sgpr_wr_en <= 1'b0;
+        end
+                 
 		default:
 			begin
 				temp_vcc_wr_en <= 1'bx;

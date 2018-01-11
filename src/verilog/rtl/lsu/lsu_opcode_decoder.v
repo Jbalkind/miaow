@@ -93,7 +93,6 @@ always@(*) begin
     sgpr_source2_addr_reg <= 9'bxxxxxxxxx;
     sgpr_wr_mask_reg <= 4'bxxxx;
     
-    vgpr_source1_addr_reg <= 10'bxxxxxxxxxx;
     vgpr_source2_rd_en_reg <= 1'b0;
     vgpr_source2_addr_reg <= 10'bxxxxxxxxxx;
     
@@ -141,7 +140,7 @@ always@(*) begin
             sgpr_source2_addr_reg <= `LSU_MTBUF_SOFFSET;
             vgpr_source2_rd_en_reg <= 1'b1;
             sgpr_source1_rd_en_reg <= 1'b1;
-            sgpr_source2_rd_en_reg <= 1'b1;
+            sgpr_source2_rd_en_reg <= 1'b1;//issue_source_reg1[11];//1'b1;//pduarte: changed to allow immediates to be loaded from address
             mem_gpr_reg <= 1'b1;
         end
     endcase
