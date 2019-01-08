@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
-////  fpu_post_norm_addsub                                 ////
+////  miaow_fpu_post_norm_addsub                                 ////
 ////                                                              ////
 ////  This file is part of the OpenRISC 1200 project              ////
 ////  http://opencores.org/project,or1k                           ////
@@ -41,7 +41,7 @@
 //	POSSIBILITY OF SUCH DAMAGE. 
 //
 
-module fpu_post_norm_addsub
+module miaow_fpu_post_norm_addsub
   (
    clk,
    rst,
@@ -50,7 +50,7 @@ module fpu_post_norm_addsub
    fract_28_i,
    exp_i,
    sign_i,
-   fpu_op_i,
+   miaow_fpu_op_i,
    rmode_i,
    output_o,
    ine_o
@@ -74,7 +74,7 @@ module fpu_post_norm_addsub
    input [FRAC_WIDTH+4:0] fract_28_i;   
    input [EXP_WIDTH-1:0]  exp_i;
    input 		  sign_i;
-   input 		  fpu_op_i;
+   input 		  miaow_fpu_op_i;
    input [1:0] 		  rmode_i;
    output reg [FP_WIDTH-1:0] output_o;
    output reg 		     ine_o;
@@ -84,7 +84,7 @@ module fpu_post_norm_addsub
    wire [FRAC_WIDTH+4:0]     s_fract_28_i;	
    wire [EXP_WIDTH-1:0]      s_exp_i;
    wire 		     s_sign_i;
-   wire 		     s_fpu_op_i;
+   wire 		     s_miaow_fpu_op_i;
    wire [1:0] 		     s_rmode_i;   
    wire [FP_WIDTH-1:0] 	     s_output_o;
    wire 		     s_ine_o;
@@ -117,7 +117,7 @@ module fpu_post_norm_addsub
    assign s_fract_28_i = fract_28_i;
    assign s_exp_i = exp_i;
    assign s_sign_i = sign_i;
-   assign s_fpu_op_i = fpu_op_i;
+   assign s_miaow_fpu_op_i = miaow_fpu_op_i;
    assign s_rmode_i = rmode_i;
    
    // Output Register
@@ -269,7 +269,7 @@ module fpu_post_norm_addsub
 
    // inf-inf=Nan
    assign s_nan_op = (s_infa & s_infb) & 
-		     (s_opa_i[31] ^ (s_fpu_op_i ^ s_opb_i[31]));
+		     (s_opa_i[31] ^ (s_miaow_fpu_op_i ^ s_opb_i[31]));
    
    assign s_nan_sign = (s_nan_a & s_nan_b) ? s_sign_i :
 		       s_nan_a ? 
@@ -296,6 +296,6 @@ module fpu_post_norm_addsub
 		       {s_sign_i,ZERO_VECTOR} :
 		       {s_sign_i,s_expo9_3[7:0],s_fracto28_2[25:3]};
 
-endmodule // fpu_post_norm_addsub
+endmodule // miaow_fpu_post_norm_addsub
 
 

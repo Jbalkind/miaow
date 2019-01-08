@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
-////  fpu_pre_norm_addsub                                  ////
+////  miaow_fpu_pre_norm_addsub                                  ////
 ////                                                              ////
 ////  This file is part of the OpenRISC 1200 project              ////
 ////  http://opencores.org/project,or1k                           ////
@@ -41,7 +41,7 @@
 //	POSSIBILITY OF SUCH DAMAGE. 
 //
 
-module fpu_pre_norm_addsub (
+module miaow_fpu_pre_norm_addsub (
 
 			    clk,
  			    rst,
@@ -210,6 +210,6 @@ module fpu_pre_norm_addsub (
 			   {s_fract_shr_28[27:1],(s_sticky|s_fract_shr_28[0])} :
 			   s_fractb_28;
 
-endmodule // fpu_pre_norm_addsub
+endmodule // miaow_fpu_pre_norm_addsub
 
 

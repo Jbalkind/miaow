@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
-////  fpu_post_norm_div                                    ////
+////  miaow_fpu_post_norm_div                                    ////
 ////                                                              ////
 ////  This file is part of the OpenRISC 1200 project              ////
 ////  http://opencores.org/project,or1k                           ////
@@ -42,7 +42,7 @@
 //
 
 
-module fpu_post_norm_div
+module miaow_fpu_post_norm_div
   (
    clk,
    rst,
@@ -317,7 +317,7 @@ module fpu_post_norm_div
 		       {s_sign_i,ZERO_VECTOR} :
 		       {s_sign_i,s_expo3[7:0],s_fraco2[22:0]};
 
-endmodule // fpu_post_norm_div
+endmodule // miaow_fpu_post_norm_div
 
 
 

@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
-////  fpu_mul                                              ////
+////  miaow_fpu_mul                                              ////
 ////                                                              ////
 ////  This file is part of the OpenRISC 1200 project              ////
 ////  http://opencores.org/project,or1k                           ////
@@ -41,7 +41,7 @@
 //	POSSIBILITY OF SUCH DAMAGE. 
 //
 
-module fpu_mul 
+module miaow_fpu_mul 
   (  
      clk,
      rst,
@@ -194,5 +194,5 @@ module fpu_mul
 	      s_fract_o <= v_prod_shl;
 	 end
    
-endmodule // fpu_mul
+endmodule // miaow_fpu_mul
 

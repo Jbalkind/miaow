@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
-////  fpu_pre_norm_div                                     ////
+////  miaow_fpu_pre_norm_div                                     ////
 ////                                                              ////
 ////  This file is part of the OpenRISC 1200 project              ////
 ////  http://opencores.org/project,or1k                           ////
@@ -41,7 +41,7 @@
 //	POSSIBILITY OF SUCH DAMAGE. 
 //
 
-module fpu_pre_norm_div
+module miaow_fpu_pre_norm_div
   (
    clk,
    rst,
@@ -200,5 +200,5 @@ module fpu_pre_norm_div
        end
 
    
-endmodule // fpu_pre_norm_div
+endmodule // miaow_fpu_pre_norm_div
 

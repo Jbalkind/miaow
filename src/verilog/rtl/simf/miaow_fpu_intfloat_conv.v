@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////
 ////                                                             ////
-////  fpu_intfloat_conv                                   ////
+////  miaow_fpu_intfloat_conv                                   ////
 ////  Only conversion between 32-bit integer and single          ////
 ////  precision floating point format                            ////
 ////                                                             ////
@@ -40,7 +40,7 @@
 
 /*
 
- FPU Operations (fpu_op):
+ FPU Operations (miaow_fpu_op):
  ========================
 
  0 = 
@@ -63,16 +63,16 @@
  */
 
 
-module fpu_intfloat_conv
+module miaow_fpu_intfloat_conv
   ( 
-    clk, rst, rmode, fpu_op, opa, out, snan, ine, inv,
+    clk, rst, rmode, miaow_fpu_op, opa, out, snan, ine, inv,
     overflow, underflow, zero
     );
    input		clk;
    input 		rst;
    
    input [1:0] 		rmode;
-   input [2:0] 		fpu_op;
+   input [2:0] 		miaow_fpu_op;
    input [31:0] 	opa;
    output [31:0] 	out;
    output		snan;   
@@ -104,9 +104,9 @@ module fpu_intfloat_conv
    reg 			ine;		// Output Registers for INE
    reg [1:0] 		rmode_r1, rmode_r2,// Pipeline registers for round mode
 			rmode_r3;
-   reg [2:0] 		fpu_op_r1, fpu_op_r2,// Pipeline registers for fp 
+   reg [2:0] 		miaow_fpu_op_r1, miaow_fpu_op_r2,// Pipeline registers for fp 
 			// operation
-			fpu_op_r3;
+			miaow_fpu_op_r3;
 
    ////////////////////////////////////////////////////////////////////////
      //
@@ -140,21 +140,21 @@ module fpu_intfloat_conv
 
    always @(posedge clk or posedge rst) 
      if (rst) 
-       fpu_op_r1 <= 1'b0; 
+       miaow_fpu_op_r1 <= 1'b0; 
      else
-       fpu_op_r1 <=  fpu_op;
+       miaow_fpu_op_r1 <=  miaow_fpu_op;
 
    always @(posedge clk or posedge rst) 
      if (rst) 
-       fpu_op_r2 <= 1'b0; 
+       miaow_fpu_op_r2 <= 1'b0; 
      else
-       fpu_op_r2 <=  fpu_op_r1;
+       miaow_fpu_op_r2 <=  miaow_fpu_op_r1;
 
    always @(posedge clk or posedge rst) 
      if (rst) 
-       fpu_op_r3 <= 1'b0; 
+       miaow_fpu_op_r3 <= 1'b0; 
      else
-       fpu_op_r3 <=  fpu_op_r2;
+       miaow_fpu_op_r3 <=  miaow_fpu_op_r2;
 
    ////////////////////////////////////////////////////////////////////////
    //
@@ -165,7 +165,7 @@ module fpu_intfloat_conv
    wire 		opa_inf;
    wire 		opa_dn;
 
-   fpu_intfloat_conv_except u0
+   miaow_fpu_intfloat_conv_except u0
      (	.clk(clk),
 	.rst(rst),
 	.opa(opa_r), 
@@ -230,7 +230,7 @@ module fpu_intfloat_conv
      if (rst) 
        exp_r <= 'd0; 
      else  // Exponent must be once cycle delayed
-       case(fpu_op_r2)
+       case(miaow_fpu_op_r2)
 	 //4:	exp_r <=  0;
 	 5:	exp_r <=  opa_r1[30:23];
 	 default: exp_r <=  0;
@@ -246,7 +246,7 @@ module fpu_intfloat_conv
      if (rst) 
        fract_i2f <= 'd0; 
      else
-       fract_i2f <=  (fpu_op_r2==5) ?
+       fract_i2f <=  (miaow_fpu_op_r2==5) ?
 		     (sign_d ?  1-{24'h00, (|opa_r1[30:23]), opa_r1[22:0]}-1 : 
 		      {24'h0, (|opa_r1[30:23]), opa_r1[22:0]})
 	 : (sign_d ? 1 - {opa_r1, 17'h01} : {opa_r1, 17'h0});
@@ -281,11 +281,11 @@ module fpu_intfloat_conv
    assign f2i_special_case_no_inv = (opa == 32'hcf000000);
    
 
-   fpu_post_norm_intfloat_conv u4
+   miaow_fpu_post_norm_intfloat_conv u4
      (
       .clk(clk),			// System Clock
       .rst(rst),
-      .fpu_op(fpu_op_r3),		// Floating Point Operation
+      .miaow_fpu_op(miaow_fpu_op_r3),		// Floating Point Operation
       .opas(opas_r2),			// OPA Sign
       .sign(sign),			// Sign of the result
       .rmode(rmode_r3),		// Rounding mode
@@ -334,8 +334,8 @@ module fpu_intfloat_conv
      if (rst)
        out [30:0] <= 'd0; 
      else
-       out[30:0] <=  /*((inf_d & (fpu_op_r3!=3'b101)) | snan_d | qnan_d) 
-		      & fpu_op_r3!=3'b100 ? out_fixed :*/ out_d;
+       out[30:0] <=  /*((inf_d & (miaow_fpu_op_r3!=3'b101)) | snan_d | qnan_d) 
+		      & miaow_fpu_op_r3!=3'b100 ? out_fixed :*/ out_d;
 
    assign out_d_00 = !(|out_d);
 
@@ -344,7 +344,7 @@ module fpu_intfloat_conv
      if (rst) 
        out[31] <= 1'b0; 
      else
-       out[31] <= (fpu_op_r3==3'b101) ? f2i_out_sign : sign_fasu_r; 
+       out[31] <= (miaow_fpu_op_r3==3'b101) ? f2i_out_sign : sign_fasu_r; 
    
    
    
@@ -356,7 +356,7 @@ module fpu_intfloat_conv
      if (rst)
        ine <= 1'b0;
      else
-       ine <= fpu_op_r3[2] ? ine_d : ine_fasu;
+       ine <= miaow_fpu_op_r3[2] ? ine_d : ine_fasu;
 
    assign overflow = overflow_d & !(snan_d | qnan_d | inf_d);
    assign underflow = underflow_d & !(inf_d | snan_d | qnan_d);
@@ -365,7 +365,7 @@ module fpu_intfloat_conv
      if (rst) 
        snan <= 1'b0; 
      else
-       snan <=  snan_d & (fpu_op_r3==3'b101);  // Only signal sNaN when ftoi
+       snan <=  snan_d & (miaow_fpu_op_r3==3'b101);  // Only signal sNaN when ftoi
 
    // Status Outputs   
    assign output_zero_fasu = out_d_00 & !(inf_d | snan_d | qnan_d);
@@ -374,9 +374,9 @@ module fpu_intfloat_conv
      if (rst) 
        zero <= 1'b0; 
      else
-       zero <= 	fpu_op_r3==3'b101 ? out_d_00 & !(snan_d | qnan_d) :
+       zero <= 	miaow_fpu_op_r3==3'b101 ? out_d_00 & !(snan_d | qnan_d) :
 	       output_zero_fasu ;
    
    assign inv = inv_d & !f2i_special_case_no_inv;
    
-endmodule // fpu_intfloat_conv
+endmodule // miaow_fpu_intfloat_conv

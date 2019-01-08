@@ -41,13 +41,13 @@
 //	POSSIBILITY OF SUCH DAMAGE. 
 //
 
-module fpu_arith
+module miaow_fpu_arith
   (
    clk,
    rst,
    opa_i,
    opb_i,
-   fpu_op_i,
+   miaow_fpu_op_i,
    rmode_i,
    output_o,
    start_i,
@@ -72,7 +72,7 @@ module fpu_arith
    parameter QNAN = 31'b11111111_10000000000000000000000;
    parameter SNAN = 31'b11111111_00000000000000000000001;
 
-   // fpu operations (fpu_op_i):
+   // fpu operations (miaow_fpu_op_i):
    // ========================
    // 000 = add, 
    // 001 = substract, 
@@ -95,7 +95,7 @@ module fpu_arith
    
    input [FP_WIDTH-1:0] opa_i;
    input [FP_WIDTH-1:0] opb_i;
-   input [2:0] 		fpu_op_i;
+   input [2:0] 		miaow_fpu_op_i;
    input [1:0] 		rmode_i;
    input 		start_i;
    output reg 		ready_o;
@@ -111,7 +111,7 @@ module fpu_arith
 
    reg [FP_WIDTH-1:0] 	     s_opa_i;
    reg [FP_WIDTH-1:0] 	     s_opb_i;
-   reg [2:0] 		     s_fpu_op_i;
+   reg [2:0] 		     s_miaow_fpu_op_i;
    reg [1:0] 		     s_rmode_i;
    reg 			     s_start_i;
    reg [5:0] 		     s_count; // Max value of 64
@@ -188,7 +188,7 @@ module fpu_arith
    
    //***Add/Substract units***
    
-   fpu_pre_norm_addsub fpu_prenorm_addsub
+   miaow_fpu_pre_norm_addsub miaow_fpu_prenorm_addsub
      (
       .clk(clk)  ,
       .rst(rst),
@@ -198,11 +198,11 @@ module fpu_arith
       .fractb_28_o(prenorm_addsub_fractb_28_o)  ,
       .exp_o(prenorm_addsub_exp_o) );
    
-   fpu_addsub fpu_addsub
+   miaow_fpu_addsub miaow_fpu_addsub
      (      
 	    .clk(clk)  ,
  	    .rst(rst), 
-	    .fpu_op_i(s_fpu_op_i[0]),		 
+	    .miaow_fpu_op_i(s_miaow_fpu_op_i[0]),		 
 	    .fracta_i(prenorm_addsub_fracta_28_o)	 ,	
 	    .fractb_i(prenorm_addsub_fractb_28_o)	 ,		
 	    .signa_i( s_opa_i[31]),			
@@ -210,7 +210,7 @@ module fpu_arith
 	    .fract_o(addsub_fract_o)  ,			
 	    .sign_o(addsub_sign_o)  );	
    
-   fpu_post_norm_addsub fpu_postnorm_addsub
+   miaow_fpu_post_norm_addsub miaow_fpu_postnorm_addsub
      (
       .clk(clk)  ,
       .rst(rst),
@@ -220,7 +220,7 @@ module fpu_arith
       .fract_28_i(addsub_fract_o)  ,
       .exp_i(prenorm_addsub_exp_o)  ,
       .sign_i(addsub_sign_o)  ,
-      .fpu_op_i(s_fpu_op_i[0]), 
+      .miaow_fpu_op_i(s_miaow_fpu_op_i[0]), 
       .rmode_i(s_rmode_i)  ,
       .output_o(postnorm_addsub_output_o)  ,
       .ine_o(postnorm_addsub_ine_o)  
@@ -228,7 +228,7 @@ module fpu_arith
    
    //***Multiply units***
    
-   fpu_pre_norm_mul fpu_pre_norm_mul
+   miaow_fpu_pre_norm_mul miaow_fpu_pre_norm_mul
      (
       .clk(clk),
       .rst(rst),
@@ -239,7 +239,7 @@ module fpu_arith
       .fractb_24_o(pre_norm_mul_fractb_24));
 
    // Serial multiply is default and only one included here
-   fpu_mul fpu_mul
+   miaow_fpu_mul miaow_fpu_mul
      (
       .clk(clk)  ,
       .rst(rst),
@@ -253,7 +253,7 @@ module fpu_arith
       .ready_o()
       );
    
-   fpu_post_norm_mul fpu_post_norm_mul
+   miaow_fpu_post_norm_mul miaow_fpu_post_norm_mul
      (
       .clk(clk)  ,
       .rst(rst),
@@ -269,7 +269,7 @@ module fpu_arith
    
    ////***Division units***
       
-   fpu_pre_norm_div fpu_pre_norm_div
+   miaow_fpu_pre_norm_div miaow_fpu_pre_norm_div
      (
       .clk(clk)  ,
       .rst(rst),
@@ -279,7 +279,7 @@ module fpu_arith
       .dvdnd_50_o(pre_norm_div_dvdnd)	 ,
       .dvsor_27_o(pre_norm_div_dvsor)	 );
    
-   fpu_div fpu_div
+   miaow_fpu_div miaow_fpu_div
      (
       .clk(clk) ,
       .rst(rst),
@@ -294,7 +294,7 @@ module fpu_arith
       .sign_o(serial_div_sign)  ,
       .div_zero_o(serial_div_div_zero)	 );
    
-   fpu_post_norm_div fpu_post_norm_div
+   miaow_fpu_post_norm_div miaow_fpu_post_norm_div
      (
       .clk(clk)  ,
       .rst(rst),
@@ -310,12 +310,12 @@ module fpu_arith
 
    // This block 
    // TODO-RAGHU-20130205 : verify that the block has flops internally.   
-   fpu_intfloat_conv fpu_intfloat_conv
+   miaow_fpu_intfloat_conv miaow_fpu_intfloat_conv
      (
       .clk(clk),
       .rst(rst),
       .rmode(s_rmode_i),
-      .fpu_op(fpu_op_i),
+      .miaow_fpu_op(miaow_fpu_op_i),
       .opa(opa_i),
       .out(intfloat_conv_output_s),
       .snan(),
@@ -334,7 +334,7 @@ module fpu_arith
        begin
 	  s_opa_i <= 'd0;
 	  s_opb_i <= 'd0;
-	  s_fpu_op_i <= 'd0;
+	  s_miaow_fpu_op_i <= 'd0;
 	  s_rmode_i <= 'd0;
 	  s_start_i <= 1'b0;
        end
@@ -342,7 +342,7 @@ module fpu_arith
        begin
 	  s_opa_i <= opa_i;
 	  s_opb_i <= opb_i;
-	  s_fpu_op_i <= fpu_op_i;
+	  s_miaow_fpu_op_i <= miaow_fpu_op_i;
 	  s_rmode_i <= rmode_i;
 	  s_start_i <= start_i;
        end
@@ -389,11 +389,11 @@ module fpu_arith
 	  end
 	  else if (s_state == t_state_busy) begin
 	     // Ready cases
-	     if (((s_count == 6) & ((fpu_op_i==3'd0) | (fpu_op_i==3'd1))) |
-		 ((s_count==MUL_COUNT) & (fpu_op_i==3'd2)) |
-		 ((s_count==33) & (fpu_op_i==3'd3)) |
-		 ((s_count==5) & (fpu_op_i == 3'd4)) |
-		 ((s_count==5) & (fpu_op_i == 3'd5))) 
+	     if (((s_count == 6) & ((miaow_fpu_op_i==3'd0) | (miaow_fpu_op_i==3'd1))) |
+		 ((s_count==MUL_COUNT) & (miaow_fpu_op_i==3'd2)) |
+		 ((s_count==33) & (miaow_fpu_op_i==3'd3)) |
+		 ((s_count==5) & (miaow_fpu_op_i == 3'd4)) |
+		 ((s_count==5) & (miaow_fpu_op_i == 3'd5))) 
 	       begin
 		  s_state <= t_state_waiting;
 		  ready_o <= 1;
@@ -417,7 +417,7 @@ module fpu_arith
        end
      else
        begin
-	  case(fpu_op_i)
+	  case(miaow_fpu_op_i)
 	    3'd0,
 	      3'd1: begin
 		 s_output_o <= postnorm_addsub_output_o;
@@ -436,14 +436,14 @@ module fpu_arith
 	       s_ine_o <= intfloat_conv_ine_s;
 	    end
 	    //	  3'd4: begin
-	    //	        s_output1 	<= post_norm_sqrt_output;
+	    //	        s_output_o 	<= post_norm_sqrt_output;
 	    //		s_ine_o 	<= post_norm_sqrt_ine_o;
 	    //	end
 	    default: begin
 	       s_output_o <= 0;
 	       s_ine_o <= 0;
 	    end
-	  endcase // case (fpu_op_i)
+	  endcase // case (miaow_fpu_op_i)
        end // always @ (posedge clk or posedge rst)
    
    // Infinte exponent
@@ -464,8 +464,8 @@ module fpu_arith
 	  // negative infinity,even if an overflow occures
 	  s_output_o = {32'b11111111_01111111_11111111_11111111};
 	else if (s_rmode_i==2'd3) begin
-	   if (((s_fpu_op_i==3'd0) | (s_fpu_op_i==3'd1)) & s_zero_o & 
-	       (s_opa_i[31] | (s_fpu_op_i[0] ^ s_opb_i[31])))
+	   if (((s_miaow_fpu_op_i==3'd0) | (s_miaow_fpu_op_i==3'd1)) & s_zero_o & 
+	       (s_opa_i[31] | (s_miaow_fpu_op_i[0] ^ s_opb_i[31])))
 	     // In round-down: a-a= -0
 	     s_output_o = {1'b1,s_output1[30:0]};
 	   else if (s_output1[31:23]==9'b0_11111111)
@@ -480,10 +480,12 @@ module fpu_arith
    // Exception generation
    assign s_underflow_o = (s_output1[30:23]==8'h00) & s_ine_o;
    assign s_overflow_o = (s_output1[30:23]==8'hff) & s_ine_o;
-   assign s_div_zero_o = serial_div_div_zero & fpu_op_i==3'd3;
+   assign s_div_zero_o = serial_div_div_zero & miaow_fpu_op_i==3'd3;
    assign s_inf_o = s_output1[30:23]==8'hff & !(s_qnan_o | s_snan_o);
    assign s_zero_o = !(|s_output1[30:0]);
    assign s_qnan_o = s_output1[30:0]==QNAN;
    assign s_snan_o = s_output1[30:0]==SNAN;
 
-endmodule // fpu_arith
+endmodule // miaow_fpu_arith
+
+

@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
-////  fpu_post_norm_mul                                    ////
+////  miaow_fpu_post_norm_mul                                    ////
 ////                                                              ////
 ////  This file is part of the OpenRISC 1200 project              ////
 ////  http://opencores.org/project,or1k                           ////
@@ -41,7 +41,7 @@
 //	POSSIBILITY OF SUCH DAMAGE. 
 //
 
-module fpu_post_norm_mul(
+module miaow_fpu_post_norm_mul(
 			 clk,
 			 rst,
 			 opa_i,
@@ -402,5 +402,5 @@ module fpu_post_norm_mul(
 		       {s_sign_i,ZERO_VECTOR} :
 		       {s_sign_i,s_expo3[7:0],s_frac3[22:0]};
 
-endmodule // fpu_post_norm_mul
+endmodule // miaow_fpu_post_norm_mul
 

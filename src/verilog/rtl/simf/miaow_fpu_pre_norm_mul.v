@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
-////  fpu_pre_norm_mul                                     ////
+////  miaow_fpu_pre_norm_mul                                     ////
 ////                                                              ////
 ////  This file is part of the OpenRISC 1200 project              ////
 ////  http://opencores.org/project,or1k                           ////
@@ -41,7 +41,7 @@
 //	POSSIBILITY OF SUCH DAMAGE. 
 //
 
-module fpu_pre_norm_mul (
+module miaow_fpu_pre_norm_mul (
 			 clk,
 			 rst,
 			 opa_i,
@@ -108,6 +108,6 @@ module fpu_pre_norm_mul (
    
    assign s_exp_10_o = s_expa_in + s_expb_in - 10'b0001111111;		
 
-endmodule // fpu_pre_norm_mul
+endmodule // miaow_fpu_pre_norm_mul
 
 

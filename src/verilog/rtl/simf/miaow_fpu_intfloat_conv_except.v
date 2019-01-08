@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////
 ////                                                             ////
-////  fpu_intfloat_conv_except                            ////
+////  miaow_fpu_intfloat_conv_except                            ////
 ////                                                             ////
 ////  Author: Rudolf Usselmann                                   ////
 ////          rudi@asics.ws                                      ////
@@ -35,7 +35,7 @@
 ////                                                             ////
 /////////////////////////////////////////////////////////////////////
 
-module fpu_intfloat_conv_except
+module miaow_fpu_intfloat_conv_except
   (	
 	clk, rst, opa, opb, inf, ind, qnan, snan, opa_nan, opb_nan,
 	opa_00, opb_00, opa_inf, opb_inf, opa_dn, opb_dn
@@ -225,4 +225,4 @@ module fpu_intfloat_conv_except
      else
        opb_dn <=  expb_00;
 
-endmodule // fpu_intfloat_conv_except
+endmodule // miaow_fpu_intfloat_conv_except

@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////
 ////                                                             ////
-////  fpu_post_norm_intfloat_conv                         ////
+////  miaow_fpu_post_norm_intfloat_conv                         ////
 ////  Floating Point Post Normalisation Unit                     ////
 ////                                                             ////
 ////  Author: Rudolf Usselmann                                   ////
@@ -35,16 +35,16 @@
 /////////////////////////////////////////////////////////////////////
 
 
-module fpu_post_norm_intfloat_conv 
+module miaow_fpu_post_norm_intfloat_conv 
   ( 
-    clk, rst, fpu_op, opas, sign, rmode, fract_in, 
+    clk, rst, miaow_fpu_op, opas, sign, rmode, fract_in, 
     exp_in, opa_dn, opa_nan, opa_inf, opb_dn,  out,
     ine, inv, overflow, underflow, f2i_out_sign
     );
    input		clk;
    input 		rst;
    
-   input [2:0] 		fpu_op;
+   input [2:0] 		miaow_fpu_op;
    input		opas;
    input		sign;
    input [1:0] 		rmode;
@@ -75,10 +75,10 @@ module fpu_post_norm_intfloat_conv
    wire [7:0] 		exp_out_final;
    reg [7:0] 		exp_out_rnd;
    wire 		op_dn = opa_dn | opb_dn;
-   wire 		op_mul = fpu_op[2:0]==3'b010;
-   wire 		op_div = fpu_op[2:0]==3'b011;
-   wire 		op_i2f = fpu_op[2:0]==3'b100;
-   wire 		op_f2i = fpu_op[2:0]==3'b101;
+   wire 		op_mul = miaow_fpu_op[2:0]==3'b010;
+   wire 		op_div = miaow_fpu_op[2:0]==3'b011;
+   wire 		op_i2f = miaow_fpu_op[2:0]==3'b100;
+   wire 		op_f2i = miaow_fpu_op[2:0]==3'b101;
    reg [5:0] 		fi_ldz;
 
    wire 		g, r, s;
@@ -454,5 +454,5 @@ module fpu_post_norm_intfloat_conv
    
    
 
-endmodule // fpu_post_norm_intfloat_conv
+endmodule // miaow_fpu_post_norm_intfloat_conv
 
