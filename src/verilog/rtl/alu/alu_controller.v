@@ -1,3 +1,5 @@
+`include "alu_definitions.h"
+
 module alu_controller 
   (/*AUTOARG*/
    // Outputs

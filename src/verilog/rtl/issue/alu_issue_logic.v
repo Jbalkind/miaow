@@ -1,3 +1,6 @@
+`include "issue_definitions.h"
+`include "global_definitions.h"
+
 module alu_issue_logic
 (/*AUTOARG*/
     // Outputs

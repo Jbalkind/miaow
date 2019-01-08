@@ -1,3 +1,5 @@
++incdir+include/
+
 alu/PS_flops_EX_WB_alu.v
 alu/PS_flops_issue_alu.v
 alu/alu.v
@@ -49,6 +51,8 @@ common/reg_param.v
 common/regfile.v
 common/register.v
 
+compute_unit/compute_unit.v
+
 decode/PS_flops_wavepool_decode.v
 decode/decode.v
 decode/decode_core.v
@@ -86,6 +90,7 @@ fetch/wfid_generator.v
 fpga/block_ram.v
 fpga/compute_unit_fpga.v
 fpga/fpga_memory.v
+fpga/fpga_memory_2.v
 fpga/neko.v
 fpga/neko_axi_slave.v
 fpga/neko_lsu.v
@@ -105,7 +110,6 @@ issue/gpr_dependency_table.v
 issue/inflight_instr_counter.v
 issue/instr_info_table.v
 issue/instruction_arbiter.v
-issue/issue.interface
 issue/issue.v
 issue/issue_flow_control.v
 issue/mem_wait.v

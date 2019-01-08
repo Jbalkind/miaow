@@ -684,7 +684,7 @@ module compute_unit
 // bus to capture store operations for both.
 assign lsu2tracemon_store_data = lsu2vgpr_dest_data;
 
-lsu lsu0 (
+neko_lsu neko_lsu0 (
     // unit to handle loads and stores
     .clk(clk),//
     .rst(rst),//

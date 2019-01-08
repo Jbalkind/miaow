@@ -1,3 +1,5 @@
+`include "alu_definitions.h"
+
 module alu(
            issue_source_reg1,
            issue_source_reg2,

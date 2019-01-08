@@ -1,3 +1,5 @@
+`include "decode_definitions.h"
+
 module decode( 
       wave_instr_pc,
       wave_instr_valid,

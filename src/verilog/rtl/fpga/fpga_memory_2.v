@@ -1,4 +1,4 @@
-`include "define.vh"
+`include "define.tmp.h"
 
 module fpga_memory_2 # (
     parameter LSU_MEM_DATA_WIDTH = 32,

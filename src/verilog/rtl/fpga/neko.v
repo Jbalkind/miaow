@@ -51,7 +51,7 @@ module neko #
     assign neko_axi_aclk = chipset_clk;
     assign neko_axi_aresetn = rst_n;
 
-noc_axilite_bridge_neko     noc_neko_bridge   (
+noc_axilite_bridge noc_neko_bridge   (
     .clk                    (chipset_clk        ),
     .rst                    (~rst_n             ),      // TODO: rewrite to positive ?
            

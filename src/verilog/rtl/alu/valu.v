@@ -1,3 +1,5 @@
+`include "alu_definitions.h"
+
 module valu
   (
    alu_source1_data,
