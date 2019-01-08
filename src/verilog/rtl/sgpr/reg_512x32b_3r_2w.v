@@ -105,7 +105,7 @@ module reg_512x32b_3r_2w
    reg [31:0] 	  wr1_data_bank3;
    //see mux at end of module
 
-`ifdef FPGA_BUILD
+`ifdef MIAOW_FPGA_BUILD
   reg_128x32b_3r_2w_fpga
 `else
   reg_128x32b_3r_2w
@@ -126,7 +126,7 @@ module reg_512x32b_3r_2w
 			   .clk(clk)
 			   );
 
-`ifdef FPGA_BUILD
+`ifdef MIAOW_FPGA_BUILD
   reg_128x32b_3r_2w_fpga
 `else
   reg_128x32b_3r_2w
@@ -147,7 +147,7 @@ module reg_512x32b_3r_2w
 			   .clk(clk)
 			   );
 
-`ifdef FPGA_BUILD
+`ifdef MIAOW_FPGA_BUILD
   reg_128x32b_3r_2w_fpga
 `else
   reg_128x32b_3r_2w
@@ -168,7 +168,7 @@ module reg_512x32b_3r_2w
 			   .clk(clk)
 			   );
 
-`ifdef FPGA_BUILD
+`ifdef MIAOW_FPGA_BUILD
   reg_128x32b_3r_2w_fpga
 `else
   reg_128x32b_3r_2w

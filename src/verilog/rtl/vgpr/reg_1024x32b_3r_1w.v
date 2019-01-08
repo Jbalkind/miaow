@@ -65,7 +65,7 @@ module reg_1024x32b_3r_1w (/*AUTOARG*/
 	rd2_data <= rd2_data_bank0;
 
      end
-`ifdef FPGA_BUILD
+`ifdef MIAOW_FPGA_BUILD
   reg_256x32b_3r_1w_fpga
 `else
   reg_256x32b_3r_1w

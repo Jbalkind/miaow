@@ -6,11 +6,11 @@ module compute_unit
    fetch2buff_rd_en, fetch2buff_addr, fetch2buff_tag,
    lsu2mem_rd_en, lsu2mem_wr_en, lsu2mem_tag_req, lsu2mem_wr_mask,
    lsu2mem_addr, lsu2mem_wr_data, lsu2mem_gm_or_lds,
-`ifdef FPGA_BUILD
+`ifdef MIAOW_FPGA_BUILD
   sgpr2dispatch_rd_data,
   vgpr2dispatch_rd_data,
 `endif
-`ifndef FPGA_BUILD
+`ifndef MIAOW_FPGA_BUILD
    issue2tracemon_barrier_retire_en, issue2tracemon_waitcnt_retire_en,
    wave2decode_instr_valid, salu2sgpr_instr_done,
    salu2exec_wr_exec_en, salu2exec_wr_vcc_en, salu2exec_wr_scc_en,
@@ -83,7 +83,7 @@ module compute_unit
    lsu2vgpr_dest_data,
 `endif
    // Inputs
-`ifdef FPGA_BUILD
+`ifdef MIAOW_FPGA_BUILD
   dispatch2sgpr_addr, dispatch2sgpr_wr_data, dispatch2sgpr_wr_en,
   dispatch2vgpr_addr, dispatch2vgpr_wr_data, dispatch2vgpr_wr_en, dispatch2vgpr_wr_mask,
   dispatch2cu_idle,
@@ -111,7 +111,7 @@ module compute_unit
   input [38:0] buff2wave_tag;
   input [31:0] mem2lsu_rd_data;
   
-`ifdef FPGA_BUILD
+`ifdef MIAOW_FPGA_BUILD
   input dispatch2cu_idle;
   input [8:0] dispatch2sgpr_addr;
   input [127:0] dispatch2sgpr_wr_data;
@@ -136,7 +136,7 @@ module compute_unit
   output [38:0]  fetch2buff_tag;
   
   output [14:0] cu2dispatch_wf_tag_done;
-`ifndef FPGA_BUILD
+`ifndef MIAOW_FPGA_BUILD
    output issue2tracemon_barrier_retire_en,
 		  issue2tracemon_waitcnt_retire_en, wave2decode_instr_valid, salu2sgpr_instr_done,
 		  salu2exec_wr_exec_en, salu2exec_wr_vcc_en, salu2exec_wr_scc_en, salu2exec_wr_scc_value,
@@ -351,7 +351,7 @@ module compute_unit
 
    wire salu_request, lsu_stall;
 
-`ifdef FPGA_BUILD
+`ifdef MIAOW_FPGA_BUILD
   wire [8:0] lsu2sgpr_dest_addr_muxed;
   wire [127:0] lsu2sgpr_dest_data_muxed;
   wire [3:0] lsu2sgpr_dest_wr_en_muxed;
@@ -834,7 +834,7 @@ lsu lsu0 (
 	      .clk(clk),
 	      .rst(rst),
 	      //  Inputs
-`ifdef FPGA_BUILD
+`ifdef MIAOW_FPGA_BUILD
         .rfa_select_fu(sgpr_select_fu),
 	      .lsu_source1_addr(lsu2sgpr_source1_addr_muxed),
         .lsu_source1_rd_en(lsu2sgpr_source1_rd_en_muxed),
@@ -983,7 +983,7 @@ lsu lsu0 (
 	       .tracemon_retire_pc(simd0_2tracemon_retire_pc)
 	       );
 
-`ifndef FPGA_BUILD
+`ifndef MIAOW_FPGA_BUILD
    simd simd1 (
 	       // Contains a 16 wide vector alu for vector operations
 	       .clk(clk),
@@ -1200,7 +1200,7 @@ lsu lsu0 (
 	       .tracemon_retire_pc(simf0_2tracemon_retire_pc)
 	       );
 
-`ifndef FPGA_BUILD
+`ifndef MIAOW_FPGA_BUILD
    simf simf1 (
 	       // Contains a 16 wide floating point vector alu for vector operations
 	       .clk(clk),
@@ -1369,7 +1369,7 @@ lsu lsu0 (
 	      .clk(clk),
 	      .rst(rst),
 	      //  Inputs
-`ifdef FPGA_BUILD
+`ifdef MIAOW_FPGA_BUILD
         .rfa_select_fu(vgpr_select_fu),
         .lsu_source1_addr(lsu2vgpr_source1_addr_muxed),
         .lsu_source1_rd_en(lsu2vgpr_source1_rd_en_muxed),
