@@ -71,7 +71,15 @@ module compute_unit_fpga #
   output wire  S_AXI_RVALID,
   // Read ready. This signal indicates that the master can
       // accept the read data and response information.
-  input wire  S_AXI_RREADY
+  input wire  S_AXI_RREADY,
+
+  // interface to packet filter
+  output wire noc2_filter_val,
+  output wire [`NOC_DATA_WIDTH - 1:0] noc2_filter_data,
+  input wire filter_noc2_rdy,
+  input wire filter_noc3_val,
+  input wire [`NOC_DATA_WIDTH - 1:0] filter_noc3_data,
+  output wire noc3_filter_rdy
 );
 
 // Example-specific design signals
@@ -1068,6 +1076,30 @@ compute_unit compute_unit0
   
   .clk(clk),
   .rst(rst)
+);
+
+// our memory controller to the packet filter
+fpga_memory_2 fpga_memory_2_0 (
+    .clk(clk),
+    .rst(rst),
+
+    .noc2_filter_val(noc2_filter_val),
+    .noc2_filter_data(noc2_filter_data),
+    .filter_noc2_rdy(filter_noc2_rdy),
+
+    .filter_noc3_val(filter_noc3_val),
+    .filter_noc3_data(filter_noc3_data),
+    .noc3_filter_rdy(noc3_filter_rdy),
+
+    .lsu_wr_en(lsu2mem_wr_en),
+    .lsu_rd_en(lsu2mem_rd_en),
+    .lsu_addr(lsu2mem_addr),
+    .lsu_wr_data(lsu2mem_wr_data),
+    .lsu_tag_req(lsu2mem_tag_req),
+
+    .lsu_tag_resp(mem2lsu_tag_resp),
+    .lsu_rd_data(mem2lsu_rd_data),
+    .lsu_ack(mem2lsu_ack)
 );
   
 fpga_memory fpga_memory0(
