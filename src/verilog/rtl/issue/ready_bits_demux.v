@@ -1,3 +1,6 @@
+`include "global_definitions.h"
+`include "issue_definitions.h"
+
 module ready_bits_demux(
     in,
     addr,
