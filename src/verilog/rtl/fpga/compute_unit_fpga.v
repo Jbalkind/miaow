@@ -73,6 +73,7 @@ module compute_unit_fpga #
       // accept the read data and response information.
   input wire  S_AXI_RREADY,
 
+`ifdef PITON_PMESH_MIAOW
   // interface to packet filter
   output wire noc2_filter_val,
   output wire [`NOC_DATA_WIDTH - 1:0] noc2_filter_data,
@@ -80,6 +81,7 @@ module compute_unit_fpga #
   input wire filter_noc3_val,
   input wire [`NOC_DATA_WIDTH - 1:0] filter_noc3_data,
   output wire noc3_filter_rdy
+`endif
 );
 
 // Example-specific design signals
@@ -1078,6 +1080,7 @@ compute_unit compute_unit0
   .rst(rst)
 );
 
+`ifdef PITON_PMESH_MIAOW
 // our memory controller to the packet filter
 fpga_memory_2 fpga_memory_2_0 (
     .clk(clk),
@@ -1101,6 +1104,7 @@ fpga_memory_2 fpga_memory_2_0 (
     .lsu_rd_data(mem2lsu_rd_data),
     .lsu_ack(mem2lsu_ack)
 );
+`endif
   
 fpga_memory fpga_memory0(
   .mem_wr_en(lsu2mem_wr_en),
