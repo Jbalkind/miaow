@@ -13,9 +13,10 @@ module neko #
 
     output                                  noc3_out_val,
     output      [`NOC_DATA_WIDTH-1:0]       noc3_out_data,
-    input                                   noc3_out_rdy,
+    input                                   noc3_out_rdy
 
 `ifdef PITON_PMESH_MIAOW
+    ,
     output                                  noc2_out_val,
     output      [`NOC_DATA_WIDTH-1:0]       noc2_out_data,
     input                                   noc2_out_rdy,
@@ -117,9 +118,9 @@ noc_axilite_bridge noc_neko_bridge   (
 		.S_AXI_RDATA(neko_axi_rdata),
 		.S_AXI_RRESP(neko_axi_rresp),
 		.S_AXI_RVALID(neko_axi_rvalid),
-		.S_AXI_RREADY(neko_axi_rready),
-
+		.S_AXI_RREADY(neko_axi_rready)
 `ifdef PITON_PMESH_MIAOW
+,
         .noc2_filter_val(noc2_out_val),
         .noc2_filter_data(noc2_out_data),
         .filter_noc2_rdy(noc2_out_rdy),

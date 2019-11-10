@@ -71,9 +71,10 @@ module compute_unit_fpga #
   output wire  S_AXI_RVALID,
   // Read ready. This signal indicates that the master can
       // accept the read data and response information.
-  input wire  S_AXI_RREADY,
+  input wire  S_AXI_RREADY
 
 `ifdef PITON_PMESH_MIAOW
+  ,
   // interface to packet filter
   output wire noc2_filter_val,
   output wire [`NOC_DATA_WIDTH - 1:0] noc2_filter_data,

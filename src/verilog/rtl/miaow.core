@@ -199,6 +199,7 @@ filesets:
             - wavepool/wavepool_controller.v
             - wavepool/wq_pool.v
         depend:
+            - openpiton::noc_axilite_bridge
             - openpiton::piton_include
         file_type: verilogSource-2001
 
