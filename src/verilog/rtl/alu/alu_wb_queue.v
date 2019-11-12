@@ -113,4 +113,4 @@ module alu_wb_queue(
      .rst(rst)
    );
 
-endmodule
+endmodule // alu_wb_queue

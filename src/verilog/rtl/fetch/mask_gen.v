@@ -69,4 +69,4 @@ assign out = (in == 6'd0) ? 64'h0000000000000001:
 			 (in == 6'd63) ? 64'hffffffffffffffff:
 			 64'd0;
 			 
-endmodule
+endmodule // mask_gen

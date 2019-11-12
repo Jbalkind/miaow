@@ -12,4 +12,4 @@ module regfile_clr(d_in,wr_en,d_out,clk,rst);
   
   mux2_1 m1[BITWIDTH-1:0](.InA(d_out),.InB(d_in),.out(out),.S(wr_en));
   
-endmodule
+endmodule // regfile_clr

@@ -19,4 +19,4 @@ dff d1[BITWIDTH-1:0](.q(d_out), .d(out), .clk(clk), .rst(rst));
 
 mux2_1 m1[BITWIDTH-1:0](.InA(d_out), .InB(d_in), .out(out), .S(wr_en));
   
-endmodule
+endmodule // regfile
