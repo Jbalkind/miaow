@@ -77,7 +77,7 @@ begin
 		// s_cmov_b32	0x05
 		24'h000005 : begin
 			       if(scc) begin
-				 out_low <= s1_low;
+				 out_low = s1_low;
 			 	end
 			     end
                 // s_not_b32    0x07
@@ -88,11 +88,11 @@ begin
 		// s_brev_b32	0x0B
 		24'h00000B : begin
 				for(i = 0; i < 32; i = i + 1)
-				  out_low[i] <= s1_low[31 - i];
+				  out_low[i] = s1_low[31 - i];
 			     end
 		// s_sext_i32_i8    0x19
 		24'h000019 : begin
-				out_low <= {{24{s1_low[7]}}, s1_low[7:0]};
+				out_low = {{24{s1_low[7]}}, s1_low[7:0]};
 			     end
                 // s_and_saveexec_b64   0x24
                 24'h000024 : begin {out_hi, out_low} = s1 & exec; end
@@ -154,7 +154,7 @@ begin
                 end
 		// s_cselect_b32
 		24'h00000A : begin
-                    out_low <= scc ? s1_low : s2_low;
+                    out_low = scc ? s1_low : s2_low;
                 end
                 // s_and_b32    0x0E
                 24'h00000e : begin

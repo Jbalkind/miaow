@@ -15,8 +15,9 @@ module block_ram
 );
 
 input clka, clkb;
-input [3:0] wea, web;
-input [31:0] addra, addrb, dina, dinb;
+input wea, web;
+input [9:0] addra, addrb;
+input [31:0] dina, dinb;
 output [31:0] douta, doutb;
 
 endmodule

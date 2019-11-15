@@ -1,4 +1,4 @@
-module sgpr( 
+module sgpr(
 	     lsu_source1_addr,
 	     lsu_source2_addr,
 	     lsu_dest_addr,
@@ -109,7 +109,7 @@ module sgpr(
    input [15:0] rfa_select_fu;
    input [127:0] lsu_dest_data;
    input [63:0]  simd0_wr_data, simd1_wr_data, simd2_wr_data, simd3_wr_data,
-		 simf0_wr_data, simf1_wr_data, simf2_wr_data, simf3_wr_data, 
+		 simf0_wr_data, simf1_wr_data, simf2_wr_data, simf3_wr_data,
 		 salu_dest_data,
 		 simd0_wr_mask, simd1_wr_mask, simd2_wr_mask, simd3_wr_mask,
 		 simf0_wr_mask, simf1_wr_mask, simf2_wr_mask, simf3_wr_mask;
@@ -147,7 +147,7 @@ module sgpr(
    wire [8:0] 	  simxlsu_muxed_wr_addr_i;
    wire [127:0]   simxlsu_muxed_wr_data_i;
    wire [127:0] 	  simxlsu_muxed_wr_mask_i;
-   
+
    wire [8:0] 	  final_port0_addr;
    wire [8:0] 	  final_port1_addr;
 
@@ -161,11 +161,11 @@ module sgpr(
 
    wire [127:0]   simd0_wr_mask_i, simd1_wr_mask_i, simd2_wr_mask_i, simd3_wr_mask_i,
 		  simf0_wr_mask_i, simf1_wr_mask_i, simf2_wr_mask_i, simf3_wr_mask_i;
-   
-   wire [3:0]	  simd0_wr_en_i, simd1_wr_en_i, simd2_wr_en_i, simd3_wr_en_i, 
+
+   wire [3:0]	  simd0_wr_en_i, simd1_wr_en_i, simd2_wr_en_i, simd3_wr_en_i,
 		  simf0_wr_en_i, simf1_wr_en_i, simf2_wr_en_i, simf3_wr_en_i;
 
-   
+
    assign simd0_wr_data_i = {simd0_wr_data, simd0_wr_data};
    assign simd1_wr_data_i = {simd1_wr_data, simd1_wr_data};
    assign simd2_wr_data_i = {simd2_wr_data, simd2_wr_data};
@@ -185,9 +185,9 @@ module sgpr(
    assign simf1_wr_mask_i = {simf1_wr_mask, simf1_wr_mask};
    assign simf2_wr_mask_i = {simf2_wr_mask, simf2_wr_mask};
    assign simf3_wr_mask_i = {simf3_wr_mask, simf3_wr_mask};
-   
+
    assign simd0_wr_en_i = {4{simd0_wr_en}} & 4'b0011;
-   
+
    assign simd1_wr_en_i = {4{simd1_wr_en}} & 4'b0011;
 
    assign simd2_wr_en_i = {4{simd2_wr_en}} & 4'b0011;
@@ -201,7 +201,7 @@ module sgpr(
    assign simf2_wr_en_i = {4{simf2_wr_en}} & 4'b0011;
 
    assign simf3_wr_en_i = {4{simf3_wr_en}} & 4'b0011;
-   
+
    assign issue_alu_wr_done_wfid = salu_instr_done_wfid;
    assign issue_alu_wr_done = salu_instr_done;
    assign issue_alu_dest_reg_addr = salu_dest_addr;
@@ -214,9 +214,9 @@ module sgpr(
 
    //For writes from simx, read the old value using a ead port and modify only
    //the bits specified by the wr mask
-   assign simxlsu_wr_merged_data = (simxlsu_muxed_wr_data_i & 
-				    simxlsu_muxed_wr_mask_i) | 
-				   ({2{simx_rd_old_data}} & 
+   assign simxlsu_wr_merged_data = (simxlsu_muxed_wr_data_i &
+				    simxlsu_muxed_wr_mask_i) |
+				   ({2{simx_rd_old_data}} &
 				    (~simxlsu_muxed_wr_mask_i));
 
    dff  wr0_delay_flop[4+9+128+128-1:0]
@@ -226,7 +226,7 @@ module sgpr(
 	  simxlsu_muxed_wr_data,simxlsu_muxed_wr_mask}),
       .clk(clk),
       .rst(rst));
-   
+
    reg_512x32b_3r_2w sgpr_reg_file
      (
       .rd0_addr(final_port0_addr),
@@ -349,9 +349,9 @@ module sgpr(
       .port8_wr_mask({128{1'b1}}),
 
       //**
-      .port9_wr_en(salu_dest_wr_en),
+      .port9_wr_en({2'd0, salu_dest_wr_en}),
       .port9_wr_addr(salu_dest_addr),
-      .port9_wr_data(salu_dest_data),
+      .port9_wr_data({64'd0, salu_dest_data}),
       .port9_wr_mask({128{1'b1}}),
       //**
 

@@ -1,5 +1,5 @@
 module compute_unit
-  ( 
+  (
     /*AUTOARG*/
    // Outputs
    cu2dispatch_wf_done, cu2dispatch_wf_tag_done,
@@ -33,7 +33,7 @@ module compute_unit
    lsu2tracemon_gm_or_lds, lsu2tracemon_addr, lsu2tracemon_store_data, lsu2tracemon_store_enable, lsu2tracemon_idle,
    fetch2tracemon_dispatch, salu2exec_wr_m0_en, decode2issue_barrier,
    salu2tracemon_exec_word_sel, salu2tracemon_vcc_word_sel,
-   salu2sgpr_dest_wr_en, 
+   salu2sgpr_dest_wr_en,
    lsu2sgpr_dest_wr_en, lsu2vgpr_dest_wr_en,
    issue2tracemon_waitcnt_retire_wfid, wave2decode_wfid,
    salu2sgpr_instr_done_wfid, simd0_2vgpr_instr_done_wfid,
@@ -110,18 +110,18 @@ module compute_unit
   input [31:0] dispatch2cu_start_pc_dispatch, buff2wave_instr;
   input [38:0] buff2wave_tag;
   input [31:0] mem2lsu_rd_data;
-  
+
 `ifdef MIAOW_FPGA_BUILD
   input dispatch2cu_idle;
   input [8:0] dispatch2sgpr_addr;
   input [127:0] dispatch2sgpr_wr_data;
   input dispatch2sgpr_wr_en;
-  
+
   input [9:0] dispatch2vgpr_addr;
   input [2047:0] dispatch2vgpr_wr_data;
   input dispatch2vgpr_wr_en;
   input [63:0] dispatch2vgpr_wr_mask;
-  
+
   output [127:0] sgpr2dispatch_rd_data;
   output [2047:0] vgpr2dispatch_rd_data;
 `endif
@@ -134,7 +134,7 @@ module compute_unit
 
   output [31:0] fetch2buff_addr;
   output [38:0]  fetch2buff_tag;
-  
+
   output [14:0] cu2dispatch_wf_tag_done;
 `ifndef MIAOW_FPGA_BUILD
    output issue2tracemon_barrier_retire_en,
@@ -167,7 +167,7 @@ module compute_unit
 		  simf2_2vgpr_instr_done_wfid, simf3_2vgpr_instr_done_wfid, lsu2sgpr_instr_done_wfid,
 		  lsu2vgpr_instr_done_wfid, issue2fetchwave_wf_done_wf_id, salu2fetchwaveissue_branch_wfid,
 		  decode2issue_wfid, fetch2tracemon_new_wfid;
-   
+
    output [8:0]   wave2decode_sgpr_base, salu2sgpr_dest_addr, simd0_2sgpr_wr_addr,
 		  simd1_2sgpr_wr_addr, simd2_2sgpr_wr_addr, simd3_2sgpr_wr_addr, simf0_2sgpr_wr_addr,
 		  simf1_2sgpr_wr_addr, simf2_2sgpr_wr_addr, simf3_2sgpr_wr_addr, lsu2sgpr_dest_addr;
@@ -201,8 +201,10 @@ module compute_unit
    output [2047:0] lsu2vgpr_dest_data; //**CHANGE
 `endif
    ///////////////////////////////
-		   //Signals for submodules 
+		   //Signals for submodules
    ///////////////////////////////
+   wire [2047:0] lsu2tracemon_addr;
+   wire [2047:0] lsu2tracemon_store_data;
    wire 	   buff2fetchwave_ack, cu2dispatch_wf_done, decode2issue_barrier,
 		   decode2issue_branch, decode2issue_exec_rd, decode2issue_exec_wr, decode2issue_m0_rd,
 		   decode2issue_m0_wr, decode2issue_scc_rd, decode2issue_scc_wr, decode2issue_valid,
@@ -357,27 +359,27 @@ module compute_unit
   wire [3:0] lsu2sgpr_dest_wr_en_muxed;
   wire [8:0] lsu2sgpr_source1_addr_muxed;
   wire lsu2sgpr_source1_rd_en_muxed;
-  
+
   wire [9:0] lsu2vgpr_dest_addr_muxed;
   wire [2047:0] lsu2vgpr_dest_data_muxed;
   wire [3:0] lsu2vgpr_dest_wr_en_muxed;
   wire [63:0] lsu2vgpr_dest_wr_mask_muxed;
   wire [9:0] lsu2vgpr_source1_addr_muxed;
   wire lsu2vgpr_source1_rd_en_muxed;
-  
+
   wire [15:0] sgpr_select_fu;
   wire [15:0] vgpr_select_fu;
 
   assign sgpr2dispatch_rd_data = sgpr2lsu_source1_data;
   assign vgpr2dispatch_rd_data = vgpr2lsu_source1_data;
-  
+
   assign sgpr_select_fu = dispatch2cu_idle ? {7'd0, dispatch2sgpr_wr_en, 8'd0} : rfa2execvgprsgpr_select_fu;
   assign lsu2sgpr_dest_addr_muxed = dispatch2cu_idle ? dispatch2sgpr_addr : lsu2sgpr_dest_addr;
   assign lsu2sgpr_dest_data_muxed = dispatch2cu_idle ? dispatch2sgpr_wr_data : lsu2sgpr_dest_data;
   assign lsu2sgpr_dest_wr_en_muxed = dispatch2cu_idle ? {4{dispatch2sgpr_wr_en}} : lsu2sgpr_dest_wr_en;
   assign lsu2sgpr_source1_addr_muxed = dispatch2cu_idle ? dispatch2sgpr_addr : lsu2sgpr_source1_addr;
   assign lsu2sgpr_source1_rd_en_muxed = dispatch2cu_idle | lsu2sgpr_source1_rd_en;
-  
+
   assign vgpr_select_fu = dispatch2cu_idle ? {7'd0,  dispatch2vgpr_wr_en, 8'd0} : rfa2execvgprsgpr_select_fu;
   assign lsu2vgpr_dest_addr_muxed = dispatch2cu_idle ? dispatch2vgpr_addr : lsu2vgpr_dest_addr;
   assign lsu2vgpr_dest_data_muxed = dispatch2cu_idle ? dispatch2vgpr_wr_data : lsu2vgpr_dest_data;

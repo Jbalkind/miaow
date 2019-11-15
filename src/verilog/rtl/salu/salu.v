@@ -32,7 +32,7 @@ module salu(
 	    sgpr_source1_addr, //**
 	    sgpr_source1_rd_en, //**
 	    sgpr_source2_rd_en, //**
-	    issue_alu_ready, 
+	    issue_alu_ready,
 	    sgpr_instr_done_wfid, //**
 	    sgpr_instr_done, //**
 	    fetchwaveissue_branch_wfid,
@@ -78,9 +78,9 @@ module salu(
    // into files. It ovewrites everithing without mercy. Save your work before running the script
    ///////////////////////////////
 
-   wire 	 alu_select_i, alu_select_i_flopped, alu_select_ii, exec_en_i, 
-		 vcc_en_i, scc_en_i, m0_en_i, branch_en, branch_taken, 
-		 branch_taken_i, branch_en_i, branch_taken_ii, branch_en_ii, 
+   wire 	 alu_select_i, alu_select_i_flopped, alu_select_ii, exec_en_i,
+		 vcc_en_i, scc_en_i, m0_en_i, branch_en, branch_taken,
+		 branch_taken_i, branch_en_i, branch_taken_ii, branch_en_ii,
 		 bit64_op, bit64_op_i, scc_val_i;
    wire [1:0] 	 sgpr_en_i, vcc_wordsel, exec_wordsel, vcc_wordsel_i,
 		 exec_wordsel_i, vcc_wordsel_ii, exec_wordsel_ii;
@@ -116,7 +116,7 @@ module salu(
    reg [63:0] exec_rd_exec_value_i, exec_rd_vcc_value_i;
    wire [63:0] sgpr_source2_data_i, sgpr_source1_data_i;
    wire rfa2salu_req_hold;
-  
+
    // Keep the delay on exec signals
    always @ ( posedge clk or posedge rst ) begin
       if(rst) begin
@@ -246,7 +246,7 @@ module salu(
 			     );
 
    // Stage 2: Latching control signals
-   regfile #(97) salu_decode(
+   regfile #(98) salu_decode(
 			     { alu_select_i_flopped, dest_reg_i, wfid_i,
 			       instr_pc_i, alu_control, exec_en, vcc_en, scc_en,
 			       m0_en, sgpr_en, vcc_wordsel, exec_wordsel,
@@ -268,7 +268,7 @@ module salu(
 			       );
 
    // Stage 3: Latching writeback control signals and data
-   regfile #(256) writeback(
+   regfile #(257) writeback(
 			    { instr_pc_ii, exec_en_i, vcc_en_i, scc_en_i, m0_en_i,
 			      sgpr_en_i, dest_reg_ii, wfid_ii, alu_out, scc_data,
 			      vcc_wordsel_i, exec_wordsel_i, exec_val_i, vcc_val_i,
@@ -284,7 +284,7 @@ module salu(
 			    );
 
    //**CHANGE [PSP]
-   //request line will be double flopped. 
+   //request line will be double flopped.
    assign rfa2sgpr_request = salu2sgpr_req_ii;
    ///////////////////////////////////////////////////////
    // MODULE INSTANTIATIONS
@@ -296,12 +296,12 @@ module salu(
 
    assign rfa2salu_req_hold = (salu2sgpr_req_ii | salu2sgpr_req_i | salu2sgpr_req) ? 1'b1: 1'b0;
    salu_controller scontrol(
-			    .control_en(alu_select_i_flopped), .dst_reg(dest_reg_i), .opcode(opcode_i), 
-                            .alu_control(alu_control), .branch_on_cc(branch_on_cc), .exec_en(exec_en), 
-                            .vcc_en(vcc_en), .scc_en(scc_en), .m0_en(m0_en), .sgpr_en(sgpr_en), 
-                            .vcc_wordsel(vcc_wordsel), .exec_wordsel(exec_wordsel), .exec_sgpr_cpy(exec_sgpr_cpy), 
-                            .snd_src_imm(snd_src_imm), .bit64_op(bit64_op), .rst(rst), .clk(clk), 
-                            .salu2sgpr_req(salu2sgpr_req), .rfa2salu_req_hold(rfa2salu_req_hold), 
+			    .control_en(alu_select_i_flopped), .dst_reg(dest_reg_i), .opcode(opcode_i),
+                            .alu_control(alu_control), .branch_on_cc(branch_on_cc), .exec_en(exec_en),
+                            .vcc_en(vcc_en), .scc_en(scc_en), .m0_en(m0_en), .sgpr_en(sgpr_en),
+                            .vcc_wordsel(vcc_wordsel), .exec_wordsel(exec_wordsel), .exec_sgpr_cpy(exec_sgpr_cpy),
+                            .snd_src_imm(snd_src_imm), .bit64_op(bit64_op), .rst(rst), .clk(clk),
+                            .salu2sgpr_req(salu2sgpr_req), .rfa2salu_req_hold(rfa2salu_req_hold),
                             .control_en_fw(issue_alu_select), .dst_reg_fw(issue_dest_reg)
 			    );
    //**
@@ -354,6 +354,6 @@ module salu(
 
    assign issue_alu_ready = ~rfa2salu_req_hold;
 
-   //** 
+   //**
 
 endmodule
